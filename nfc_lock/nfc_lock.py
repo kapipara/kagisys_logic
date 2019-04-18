@@ -14,7 +14,7 @@ import argparse
 
 from db import DataBase
 from oled import OLED_Display
-
+from datetime import datetime	# 対ysmtインジケータランプ消灯用
 
 class NFC_Kagisys():
 	"""サーボモータの制御"""
@@ -186,8 +186,12 @@ class NFC_Kagisys():
 			else:
 				GPIO.output(self.errLED, 1)
 			time.sleep(0.5)
-		if toggle == "lock":
-			GPIO.output(self.errLED, 1)
+			
+		if 7 <= datetime.now().hour <20:	# 7時～20時の間のみ点灯
+			if toggle == "lock":
+				GPIO.output(self.errLED, 1)
+			else:
+				GPIO.output(self.errLED, 0)
 		else:
 			GPIO.output(self.errLED, 0)
 	
